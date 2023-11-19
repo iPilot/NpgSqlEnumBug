@@ -16,11 +16,12 @@ namespace NpgSqlEnumBug.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("enum_schema")
                 .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "test_enum", new[] { "first", "second", "third" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "test_enum2", new[] { "n1", "n2", "n3" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "enum_schema", "test_enum", new[] { "first", "second", "third" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "enum_schema", "test_enum2", new[] { "n1", "n2", "n3" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("NpgSqlEnumBug.TestEntity", b =>
@@ -35,9 +36,13 @@ namespace NpgSqlEnumBug.Migrations
                     b.Property<TestEnum2>("Enum2")
                         .HasColumnType("test_enum2");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.ToTable("TestEntities");
+                    b.ToTable("TestEntities", "enum_schema");
                 });
 #pragma warning restore 612, 618
         }

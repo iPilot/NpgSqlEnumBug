@@ -22,31 +22,4 @@ namespace NpgSqlEnumBug
             app.Run();
         }
     }
-
-    public class EnumDbContext : DbContext
-    {
-        public EnumDbContext(DbContextOptions<EnumDbContext> options) : base(options)
-        {
-        }
-        public virtual required DbSet<TestEntity> TestEntities { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.HasPostgresEnum<TestEnum>();
-            modelBuilder.HasPostgresEnum<TestEnum2>();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-        }
-    }
-
-    public class TestEntity
-    {
-        public ulong Id { get; set; }
-
-        public TestEnum Enum { get; set; }
-
-        public TestEnum2 Enum2 { get; set; }
-    }
 }
